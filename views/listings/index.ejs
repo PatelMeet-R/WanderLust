@@ -1,0 +1,12 @@
+<%layout("/layouts/boilerplate");%>
+<body>
+  all listings this is testing route
+  <!-- <form method="GET" action="/listings/new">
+    <button type="submit">create new listings</button>
+  </form> -->
+  <ul>
+    <% for (let listing of allListings){%>
+    <li><a href="/listings/<%=listing._id%>"><%= listing.title%></a></li>
+    <%}%>
+  </ul>
+</body>
