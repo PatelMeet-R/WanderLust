@@ -3,7 +3,12 @@
 <body>
   <div class="row mt-3">
     <div class="col-8 offset-2">
-      <form action="/listings" method="post">
+      <form
+        action="/listings"
+        method="post"
+        novalidate
+        class="needs-validation"
+      >
         <h3>Create a New Listing</h3>
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -12,8 +17,10 @@
             class="form-control"
             name="listing[title]"
             id="title"
-            placeholder="Enter a Catchy Title"
+            placeholder="Enter a  Title"
+            required
           />
+          <div class="valid-feedback">title Looks good!</div>
         </div>
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
@@ -24,7 +31,11 @@
             rows="10"
             placeholder="Enter description"
             class="form-control"
+            required
           ></textarea>
+          <div class="invalid-feedback">
+            please enter a short decriptions!
+          </div>
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">Image Link</label>
@@ -45,7 +56,9 @@
               class="form-control"
               name="listing[price]"
               id="price"
+              required
             />
+            <div class="invalid-feedback">please enter a valid price</div>
           </div>
           <div class="mb-3 col-md-8">
             <label for="country" class="form-label">Country</label>
@@ -55,7 +68,9 @@
               id="country"
               class="form-control"
               placeholder="Enter country"
+              required
             />
+            <div class="invalid-feedback">Please Enter the country name</div>
           </div>
         </div>
         <div class="mb-3 col-md-8">
@@ -67,7 +82,9 @@
             id="location"
             class="form-control"
             placeholder="Enter location"
+            required
           />
+          <div class="invalid-feedback">location should be valid</div>
         </div>
         <button class="btn btn-dark add-btn mt-3">Add</button>
         <br /><br />
