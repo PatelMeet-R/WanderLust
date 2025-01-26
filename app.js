@@ -122,7 +122,7 @@ app.delete(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deleteListing = await Listing.findByIdAndDelete(id);
-    console.log(deleteListing + "this listing is deleted successfully");
+    console.log(deleteListing + " /n this listing is deleted successfully");
     res.redirect("/listings");
   })
 );
@@ -143,7 +143,16 @@ app.post(
   })
 );
 
-
+// destroy review route
+app.delete(
+  "/listings/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+  })
+);
 
 // samplelisting route
 // app.get("/testListing", async (req,res) => {
