@@ -3,14 +3,14 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 const Listing = require("./models/listing");
+const Review = require("./models/reviews.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const dotenv = require("dotenv").config();
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { wrap } = require("module");
 const { listingSchema } = require("./Schema.js");
-
+const { ReviewSchema } = require("./Schema.js");
 let main = async () => {
   let mongoUrl = process.env.DATABASE_URL;
   await mongoose.connect(mongoUrl);
@@ -22,7 +22,7 @@ main()
   .catch((err) => {
     console.log(err);
   });
-app.set("views engine", "ejs");
+app.set("views engines", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
@@ -33,16 +33,34 @@ app.get("/", (req, res) => {
   res.send("this app is working");
 });
 
-const validateListing = (req, res, next) => {
+function validateListing(req, res, next) {
   let { error } = listingSchema.validate(req.body);
+
   if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    
-    throw new ExpressError(400, errMsg);
+    // Return el.message so that the error messages are mapped properly
+    let errMsg = error.details
+      .map((el) => el.message) // Return el.message here
+      .join(",");
+    console.log(errMsg);
+    throw new ExpressError(400, errMsg); // Throw the custom error with status code and message
   } else {
-    next();
+    next(); // Call next() if validation is successful
   }
-};
+}
+function validateReview(req, res, next) {
+  let { error } = ReviewSchema.validate(req.body);
+
+  if (error) {
+    // Return el.message so that the error messages are mapped properly
+    let errMsg = error.details
+      .map((el) => el.message) // Return el.message here
+      .join(",");
+    console.log(errMsg);
+    throw new ExpressError(400, errMsg); // Throw the custom error with status code and message
+  } else {
+    next(); // Call next() if validation is successful
+  }
+}
 
 // Index route
 app.get(
@@ -71,7 +89,7 @@ app.get(
   "/listings/:id",
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
   })
 );
@@ -88,7 +106,7 @@ app.get(
 app.put(
   "/listings/:id",
   validateListing,
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(
       id,
@@ -104,10 +122,29 @@ app.delete(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deleteListing = await Listing.findByIdAndDelete(id);
-    console.log(deleteListing);
+    console.log(deleteListing + "this listing is deleted successfully");
     res.redirect("/listings");
   })
 );
+// reviews Route
+// post review route
+app.post(
+  "/listings/:id/reviews",
+  validateReview,
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.findById(id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    console.log("new review saved", newReview);
+    res.redirect(`/listings/${listing._id}`);
+  })
+);
+
+
+
 // samplelisting route
 // app.get("/testListing", async (req,res) => {
 //   let sampleListing = new Listing({
@@ -128,9 +165,8 @@ app.all("*", (err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  let { statusCode = 500, message } = err;
+  const { statusCode = 500, message = "Internal Server Error" } = err; // Add default message
   res.status(statusCode).render("error.ejs", { message });
-  // res.status(statusCode).send(message);
 });
 
 app.listen(3030, (req, res) => {

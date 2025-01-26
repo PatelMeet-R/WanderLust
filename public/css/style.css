@@ -56,7 +56,7 @@ body {
   margin-right: 1rem;
 }
 /* cards */
-.card {
+.listing-card {
   border: none !important;
   margin-bottom: 2rem;
   text-decoration: none;
