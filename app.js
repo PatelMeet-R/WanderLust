@@ -15,13 +15,7 @@ let main = async () => {
   let mongoUrl = process.env.DATABASE_URL;
   await mongoose.connect(mongoUrl);
 };
-main()
-  .then((data) => {
-    console.log("mongoDB is connection successful");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
 const sessionOption = {
   resave: false,
   secret: "password",
@@ -62,6 +56,13 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { message });
 });
 
-app.listen(3030, (req, res) => {
-  console.log("app is listening to the port 3030");
-});
+main()
+  .then((data) => {
+    app.listen(3030, (req, res) => {
+      console.log("app is listening to the port 3030");
+    });
+    console.log("mongoDB is connection successful");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
