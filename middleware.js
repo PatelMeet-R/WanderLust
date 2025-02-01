@@ -5,6 +5,8 @@ const ExpressError = require("./utils/ExpressError");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
+    // with the help req.originalUrl ,we get the what user targeting rest api proper path
+    // after that we pass this proper path to session
     req.session.redirectUrl = req.originalUrl;
     // console.log(req.session.redirectUrl);
     req.flash("error", "You must be login");
@@ -12,8 +14,10 @@ module.exports.isLoggedIn = (req, res, next) => {
   }
   next();
 };
+// we need to store session which content the proper path in local storage because after user get login ,session are terminate and restart  
 module.exports.saveRedirectUrl = (req, res, next) => {
   if (req.session.redirectUrl) {
+    //this res.locals.redirctUrl pass to User.js for redirect the user request rest api after user get login
     res.locals.redirectUrl = req.session.redirectUrl;
   }
   next();
