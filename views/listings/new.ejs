@@ -3,11 +3,13 @@
 <body>
   <div class="row mt-3">
     <div class="col-8 offset-2">
+      <!-- enctype='multipart/form-data' -->
       <form
         action="/listings"
         method="post"
         novalidate
         class="needs-validation"
+        enctype="multipart/form-data"
       >
         <h3>Create a New Listing</h3>
         <div class="mb-3">
@@ -33,18 +35,17 @@
             class="form-control"
             required
           ></textarea>
-          <div class="invalid-feedback">
-            please enter a short decriptions!
-          </div>
+          <div class="invalid-feedback">please enter a short decriptions!</div>
         </div>
         <div class="mb-3">
-          <label for="image" class="form-label">Image Link</label>
+          <label for="image" class="form-label">Upload listing image</label>
           <input
-            type="text"
-            name="listing[image][url]"
+            type="file"
+            name="listing[image]"
             id="image"
             class="form-control"
             placeholder="Enter image URL/Link"
+            required
           />
         </div>
         <div class="row">

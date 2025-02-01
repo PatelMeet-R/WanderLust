@@ -3,24 +3,28 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../Controller/listings.js");
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 // Index route
 router
   .route("/")
   .get(wrapAsync(listingController.index))
   .post(
     isLoggedIn,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingController.createListing)
   );
-router
-.route("/new")
-.get(isLoggedIn, listingController.renderNewForm);
+
+router.route("/new").get(isLoggedIn, listingController.renderNewForm);
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))
   .put(
     isLoggedIn,
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingController.updateListing)
   )
@@ -28,7 +32,7 @@ router
 router
   .route("/:id/edit")
   .get(isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
-  module.exports = router;
+module.exports = router;
 
 // samplelisting route //check the data insertion and route
 // app.get("/testListing", async (req,res) => {
@@ -43,4 +47,3 @@ router
 //   console.log("sample is successful");
 //   res.send("data is added");
 // });
-
