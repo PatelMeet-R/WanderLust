@@ -51,9 +51,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("this is working Route");
-});
+
 app.use("/", userRouter);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
@@ -71,7 +69,7 @@ main()
   .then((data) => {
     console.log("mongoDB is connection successful");
     app.listen(3030, (req, res) => {
-      console.log("app is listening to the port 3030");
+      console.log("server is listening to port no 3030");
     });
   })
   .catch((err) => {

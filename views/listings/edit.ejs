@@ -40,9 +40,28 @@
               please enter a short decriptions!
             </div>
           </div>
-            Original listing Image <br />
-            <img src="<%= originalImageUrl %>" alt="">
-            <div class="mb-3"></div>
+          <div class="mb-3">
+            <select
+              class="form-select form-select-sm"
+              aria-label="Small select example"
+              name="listing[category]"
+              required
+            >
+              <option selected><%=listing.category%></option>
+              <option value="trending">trending</option>
+              <option value="rooms">rooms</option>
+              <option value="iconic-cities">iconic-cities</option>
+              <option value="mountains">mountains</option>
+              <option value="castles">castles</option>
+              <option value="amazing-pools">amazing-pools</option>
+              <option value="camping">camping</option>
+              <option value="farms">farms</option>
+              <option value="arctic">arctic</option>
+            </select>
+          </div>
+          Original listing Image <br />
+          <img src="<%= originalImageUrl %>" alt="" />
+          <div class="mb-3"></div>
           <div class="mb-3">
             <label class="form-label"
               >Upload New Image

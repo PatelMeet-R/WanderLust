@@ -38,6 +38,25 @@
           <div class="invalid-feedback">please enter a short decriptions!</div>
         </div>
         <div class="mb-3">
+          <select
+            class="form-select form-select-sm"
+            aria-label="Small select example"
+            name="listing[category]"
+            required
+          >
+            <option selected>Select Category</option>
+            <option value="trending">Trending</option>
+            <option value="rooms">Rooms</option>
+            <option value="iconic-cities">Iconic-cities</option>
+            <option value="mountains">Mountains</option>
+            <option value="castles">Castles</option>
+            <option value="amazing-pools">Amazing-pools</option>
+            <option value="camping">Camping</option>
+            <option value="farms">Farms</option>
+            <option value="arctic">Arctics</option>
+          </select>
+        </div>
+        <div class="mb-3">
           <label for="image" class="form-label">Upload listing image</label>
           <input
             type="file"

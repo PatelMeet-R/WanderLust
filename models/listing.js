@@ -23,6 +23,20 @@ const listingSchema = new Schema({
   country: {
     type: String,
   },
+  category: {
+    type: String,
+    enum: [
+      "trending",
+      "rooms",
+      "iconic-cities",
+      "mountains",
+      "castles",
+      "amazing-pools",
+      "camping",
+      "farms",
+      "arctic",
+    ],
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
@@ -33,8 +47,9 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+
   geometry: {
-    type: { type: String, enum: ['Point'], required: true }, // This defines the geometry type
+    type: { type: String, enum: ["Point"], required: true }, // This defines the geometry type
     coordinates: { type: [Number], required: true }, // This defines the coordinates array
   },
 });

@@ -65,7 +65,7 @@ module.exports.validateListing = (req, res, next) => {
     let errMsg = error.details
       .map((el) => el.message) // Return el.message here
       .join(",");
-    console.log(errMsg);
+    // console.log(errMsg);
     throw new ExpressError(400, errMsg); // Throw the custom error with status code and message
   } else {
     next(); // Call next() if validation is successful

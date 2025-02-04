@@ -18,6 +18,8 @@ router
   );
 
 router.route("/new").get(isLoggedIn, listingController.renderNewForm);
+router.route("/search").get(wrapAsync(listingController.search));
+
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))
@@ -47,3 +49,4 @@ module.exports = router;
 //   console.log("sample is successful");
 //   res.send("data is added");
 // });
+// router.route("/filter/:filterID").get(wrapAsync(listingController.filter));

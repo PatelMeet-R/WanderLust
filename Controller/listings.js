@@ -5,8 +5,9 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
+  let originalSet = allListings;
   // res.send("this is testing route");
-  res.render("listings/index.ejs", { allListings });
+  res.render("listings/index.ejs", { allListings, originalSet });
 };
 module.exports.renderNewForm = (req, res) => {
   res.render("listings/new.ejs");
@@ -23,6 +24,7 @@ module.exports.createListing = async (req, res, next) => {
   let url = req.file.path;
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
+  newListing.category = req.body.category;
   newListing.image = { filename, url };
   const geometry = response.body.features[0].geometry;
   newListing.geometry = {
@@ -63,26 +65,103 @@ module.exports.renderEditForm = async (req, res) => {
 };
 module.exports.updateListing = async (req, res, next) => {
   let { id } = req.params;
-  let editListing = await Listing.findByIdAndUpdate(
-    id,
-    { ...req.body.listing },
-    { runValidators: true }
-  );
-  if (typeof req.file !== "undefined") {
+
+  let existingListing = await Listing.findById(id);
+
+  let updatedListingData = { ...req.body.listing };
+
+  // If location is updated, geocode the new location to update geometry
+  if (updatedListingData.location !== existingListing.location) {
+    let response = await geocodingClient
+      .forwardGeocode({
+        query: updatedListingData.location,
+        limit: 2,
+      })
+      .send();
+    const geometry = response.body.features[0].geometry;
+    updatedListingData.geometry = {
+      type: "Point",
+      coordinates: geometry.coordinates,
+    };
+  } else {
+    // If location hasn't changed, retain the existing geometry
+    updatedListingData.geometry = existingListing.geometry;
+  }
+  let editListing = await Listing.findByIdAndUpdate(id, updatedListingData, {
+    runValidators: true,
+    new: true,
+  });
+
+  // Handle image update if a new image is uploaded
+  if (req.file) {
     let filename = req.file.filename;
     let url = req.file.path;
-    console.log(filename);
-    console.log(url);
     editListing.image = { url, filename };
     await editListing.save();
   }
+
   req.flash("success", "Update successful");
   res.redirect(`/listings/${id}`);
 };
+
 module.exports.destroyListing = async (req, res) => {
   let { id } = req.params;
   let deleteListing = await Listing.findByIdAndDelete(id);
   console.log(deleteListing + " /n this listing is deleted successfully");
   req.flash("success", "Listing deleted!");
   res.redirect("/listings");
+};
+
+// module.exports.filter = async (req, res) => {
+//   const filterID = req.params.filterID;
+
+//   const isFilterIdCorrect = [
+//     "trending",
+//     "rooms",
+//     "iconic-cities",
+//     "mountains",
+//     "castles",
+//     "amazing-pools",
+//     "camping",
+//     "farms",
+//     "arctic",
+//   ];
+
+//   if (!isFilterIdCorrect.includes(filterID)) {
+//     req.flash("error", "Invalid filterID");
+//     return res.redirect("/listings");
+//   }
+
+//   const filteredListings = await Listing.find({ category: filterID });
+//   return res.render("listings/index.ejs", { allListings: filteredListings });
+// };
+
+module.exports.search = async (req, res) => {
+  let input = req.query.q;
+  let query = input ? input.trim() : "";
+
+  if (query === "") {
+    req.flash("error", "Please enter a search query!");
+    return res.status(404).redirect("/listings");
+  }
+
+  let searchQuery = new RegExp(query, "i");
+
+  const searchList = await Listing.find({
+    $or: [
+      { title: searchQuery },
+      { location: searchQuery },
+      { country: searchQuery },
+    ],
+  });
+  if (searchList.length === 0) {
+    req.flash("error", "No listings found based on your search");
+    return res.redirect("/listings");
+  }
+
+  return res.status(200).render("listings/index.ejs", {
+    allListings: searchList,
+    originalSet: searchList,
+    input,
+  });
 };

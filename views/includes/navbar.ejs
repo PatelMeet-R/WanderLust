@@ -1,6 +1,13 @@
+<style>
+  .btn-search {
+    display: inline-block;
+  }
+</style>
 <nav class="navbar navbar-expand-md bg-body-light sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand" href="/listings"
+      ><i class="fa-regular fa-compass"></i
+    ></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,17 +21,34 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/listings">All Listings</a>
-        <a class="nav-link" href="/listings/new">add new Listings</a>
+        <a class="nav-link" href="/listings">Home</a>
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <% const searchInput = typeof input !== 'undefined' ? input : ''; %>
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex" action="/listings/search" method="GET">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            name="q"
+            value="<%= searchInput %>"
+          />
+          <div>
+            <button class="btn btn-search" type="submit">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i> Search
+            </button>
+          </div>
+        </form>
       </div>
       <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new">airbnb your Home</a>
         <%if(!currUser){%>
 
-        <a class="nav-link" href="/signup">Signup</a>
-        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href="/signup"><b>Signup</b></a>
+        <a class="nav-link" href="/login"><b>Login </b></a>
         <% }%> <%if(currUser){%>
-        <a class="nav-link" href="/logout">Logout</a>
+        <a class="nav-link" href="/logout"> <b>Logout </b></a>
         <%}%>
       </div>
     </div>

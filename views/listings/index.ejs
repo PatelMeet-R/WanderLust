@@ -1,26 +1,155 @@
-<%layout("/layouts/boilerplate");%>
+<% layout("/layouts/boilerplate"); %>
+
+
 <body>
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 ps-4 pe-4">
-    <% for (let listing of allListings){%>
-    <a href="/listings/<%=listing._id%>" class="listing-link">
+  <div id="filters" class="ps-4 pe-4">
+    <div id="resetFilter" onclick="resetFilter()" class="filter" style="display: none;">
+      <i class="fa-solid fa-house"></i>
+      <p>Home</p>
+    </div>
+
+    <div onclick="applyFilter('trending')" class="filter applyFilter">
+      <i class="fa-solid fa-fire"></i>
+      <p>Trending</p>
+    </div>
+
+    <div onclick="applyFilter('rooms')" class="filter applyFilter">
+      <i class="fa-solid fa-bed"></i>
+      <p>Rooms</p>
+    </div>
+
+    <div onclick="applyFilter('iconic-cities')" class="filter applyFilter">
+      <i class="fa-solid fa-mountain-city"></i>
+      <p>Iconic cities</p>
+    </div>
+
+    <div onclick="applyFilter('mountains')" class="filter applyFilter">
+      <i class="fa-solid fa-mountain"></i>
+      <p>Mountains</p>
+    </div>
+
+    <div onclick="applyFilter('castles')" class="filter applyFilter">
+      <i class="fa-brands fa-fort-awesome"></i>
+      <p>Castles</p>
+    </div>
+
+    <div onclick="applyFilter('amazing-pools')" class="filter applyFilter">
+      <i class="fa-solid fa-person-swimming"></i>
+      <p>Amazing Pools</p>
+    </div>
+
+    <div onclick="applyFilter('camping')" class="filter applyFilter">
+      <i class="fa-solid fa-campground"></i>
+      <p>Camping</p>
+    </div>
+
+    <div onclick="applyFilter('farms')" class="filter applyFilter">
+      <i class="fa-solid fa-crow"></i>
+      <p>Farms</p>
+    </div>
+
+    <div onclick="applyFilter('arctic')" class="filter applyFilter">
+      <i class="fa-solid fa-snowflake"></i>
+      <p>Arctic</p>
+    </div>
+
+    <div class="tax-toggle ms-auto">
+      <div class="form-check form-switch form-check-reverse">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="flexSwitchCheckChecked"
+          checked
+        />
+        <label class="form-check-label" for="flexSwitchCheckChecked"
+          >Display Total after taxes</label
+        >
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 ps-4 pe-4 mt-3"
+    id="listing-container"
+  >
+    <% for (let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
       <div class="card col listing-card">
         <img
-          src="<%= listing.image.url%> "
+          src="<%= listing.image.url %>"
           class="card-img-top"
           alt="listing_image"
           style="height: 20rem"
         />
-        <div class="card-img-overlay"><%=listing.title%></div>
+        <div class="card-img-overlay"><%= listing.title %></div>
         <div class="card-body">
           <p class="card-text">
-            <%= listing.title%> <br />
-            <span
-              >&#8377;<%=listing.price.toLocaleString("en-IN") %>/Night
+            <%= listing.title %> <br />
+            <span>
+              &#8377;<%= listing.price.toLocaleString("en-IN") %>/Night
+              <i class="tex-info"> &nbsp;&nbsp; + 18% GST</i>
             </span>
           </p>
         </div>
       </div>
-      <%}%>
     </a>
+    <% } %>
   </div>
+
+  <script>
+    let taxSwitch = document.getElementById("flexSwitchCheckChecked");
+
+    taxSwitch.addEventListener("click", () => {
+      let taxInfo = document.getElementsByClassName("tex-info");
+      for (let info of taxInfo) {
+        info.style.display = (info.style.display !== "none") ? "none" : "inline";
+      }
+    });
+
+    const originalSet = <%- JSON.stringify(originalSet) %>;
+    let allListings = <%- JSON.stringify(allListings) %>;
+
+    function applyFilter(filter) {
+      
+      allListings = originalSet.filter((x) => x.category === filter);
+      updateListings();
+
+      // Show the Home button
+      document.getElementById('resetFilter').style.display = 'block';
+    }
+
+    function resetFilter() {
+      allListings = [...originalSet];
+      updateListings();
+
+      document.getElementById('resetFilter').style.display = 'none';
+    }
+
+    function updateListings() {
+      const container = document.getElementById('listing-container');
+      container.innerHTML = ''; // Clear the existing listings
+
+      allListings.forEach(listing => {
+        const listingElement = `
+          <a href="/listings/${listing._id}" class="listing-link">
+            <div class="card col listing-card">
+              <img src="${listing.image.url}" class="card-img-top" alt="listing_image" style="height: 20rem"/>
+              <div class="card-img-overlay">${listing.title}</div>
+              <div class="card-body">
+                <p class="card-text">
+                  ${listing.title} <br />
+                  <span>
+                    &#8377;${listing.price.toLocaleString("en-IN")}/Night
+                    <i class="tex-info"> &nbsp;&nbsp; + 18% GST</i>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </a>
+        `;
+        container.innerHTML += listingElement;
+      });
+    }
+  </script>
 </body>
