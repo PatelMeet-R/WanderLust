@@ -1,5 +1,5 @@
 body {
-  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -9,9 +9,14 @@ body {
   flex: 1;
 }
 
+/* Navbar */
 .navbar {
   height: 5rem;
   background-color: white;
+}
+
+.nav-link {
+  color: #222222;
 }
 
 .fa-compass {
@@ -19,19 +24,7 @@ body {
   font-size: 2rem;
 }
 
-.nav-link {
-  color: #222222 !important;
-}
-
-.f-info-links a {
-  text-decoration: none !important;
-  color: #222222 !important;
-  &:hover {
-    text-decoration: underline;
-    color: #222 !important;
-  }
-}
-
+/* Footer */
 .f-info {
   text-align: center;
   height: 8rem;
@@ -39,7 +32,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: space-evenly;
+  align-items: center;
 }
 
 .f-info-links,
@@ -51,49 +44,73 @@ body {
   justify-content: center;
 }
 
+.f-info-links a {
+  text-decoration: none;
+  color: #222222;
+}
+
+.f-info-links a:hover {
+  text-decoration: underline;
+  color: #222;
+}
+
 .f-info-socials i {
   font-size: 1.2rem;
   margin-right: 1rem;
 }
-/* cards */
+
+/* Cards */
 .listing-card {
-  border: none !important;
+  border: none;
   margin-bottom: 2rem;
   text-decoration: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  background-color: #fff;
 }
 
 .card-img-top {
-  border-radius: 1rem !important;
-  width: 100% !important;
-  object-fit: cover !important;
+  border-radius: 1rem 1rem 0 0;
+  width: 100%;
+  object-fit: cover;
 }
 
 .card-body {
-  padding: 0 !important;
+  padding: 0;
 }
 
 .card-text {
-  font-weight: 400 !important;
-  text-decoration: none !important;
+  font-weight: 400;
+  text-decoration: none;
   padding-left: 1rem;
 }
 
 .card-img-overlay {
   opacity: 0;
-  &:hover {
-    opacity: 0.2;
-    background-color: white;
-  }
 }
 
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+/* Buttons */
 .add-btn,
-.edit-btn {
-  background-color: #fe424d !important;
-  border: none !important;
+.edit-btn,
+.btn-search {
+  background-color: #fe424d;
+  border: none;
+  color: #fff;
 }
 
-.show-img {
-  height: 50vh;
+.btn-search {
+  width: 100px;
+  padding: 0 1rem;
 }
 
 .show-btns {
@@ -102,14 +119,12 @@ body {
   align-items: center;
   gap: 2rem;
 }
-.listing-link {
-  text-decoration: none;
-}
-/* map */
+
+/* Map */
 #map {
   width: 100%;
   height: 0;
-  padding-bottom: 56.25%;
+  padding-bottom: 56.25%; /* Aspect ratio for responsiveness */
   position: relative;
 }
 
@@ -120,38 +135,38 @@ body {
   width: 100%;
   height: 100%;
 }
-/* navbar-search */
-.btn-search {
-  background-color: #fe424d !important;
-  color: #fff;
-  width: 100px;
-  padding: 0 1rem 0 1rem;
-}
-/* filter */
+
+/* Filters */
 #filters {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
+
 #filters a {
   text-decoration: none;
   color: black;
 }
+
 .filter {
   text-align: center;
   margin: 2rem 2rem 0 0;
   opacity: 0.7;
 }
+
 .filter:hover {
   opacity: 1;
   cursor: pointer;
 }
+
 .filter p {
   font-size: 0.8rem;
 }
+
 .tax-info {
   display: none;
 }
+
 .tax-toggle {
   border: 1px solid black;
   border-radius: 1rem;
@@ -160,4 +175,66 @@ body {
   margin-left: 3rem;
   display: flex;
   align-items: center;
+}
+
+/* Typography */
+.responsive-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Media Queries */
+
+/* Small Screens (max-width: 767.98px) */
+@media (max-width: 767.98px) {
+  .listing-card {
+    padding: 0.75rem;
+    box-shadow: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .responsive-title {
+    font-size: 20px;
+  }
+
+  .show-img {
+    height: 50vh;
+  }
+}
+
+/* Medium Screens (min-width: 768px and max-width: 1199.98px) */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .listing-card {
+    padding: 1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .responsive-title {
+    font-size: 24px;
+  }
+
+  .show-img {
+    height: 60vh;
+  }
+}
+
+/* Large Screens (min-width: 1200px) */
+@media (min-width: 1200px) {
+  .listing-card {
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .listing-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .responsive-title {
+    font-size: 28px;
+  }
+
+  .show-img {
+    height: 70vh;
+  }
 }
