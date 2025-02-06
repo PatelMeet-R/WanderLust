@@ -10,14 +10,15 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 let main = async () => {
-  let mongoUrl = process.env.DATABASE_URL;
-  await mongoose.connect(mongoUrl);
+  let dbUrl = process.env.DATABASE_URL;
+  await mongoose.connect(dbUrl);
 };
 app.set("views engines", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -26,7 +27,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride("_method"));
 
+const store = MongoStore.create({
+  mongoUrl: process.env.DATABASE_URL,
+  crypto: {
+    secret: process.env.SESSION_SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+store.on("error", () => {
+  console.log("ERROR IN MONGO SESSION STORE", err);
+});
 const sessionOption = {
+  store,
   resave: false,
   secret: process.env.SESSION_SECRET,
   saveUninitialized: true,
@@ -50,8 +62,9 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user;
   next();
 });
-
-
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 app.use("/", userRouter);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);

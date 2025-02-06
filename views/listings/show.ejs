@@ -120,7 +120,8 @@
             data-rating="<%=review.rating%>"
           ></p>
           <p class="card-text"><%=review.comment%></p>
-          <% if(currUser){%>
+          <%if(currUser && currUser._id.equals(review.reviewcreator._id)){%> <%
+          if(currUser){%>
 
           <form
             action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE"
@@ -129,7 +130,7 @@
           >
             <button class="btn btn-sm btn-dark">Delete</button>
           </form>
-          <%}%>
+          <%}%> <% } %>
         </div>
       </div>
       <%}%>
