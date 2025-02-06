@@ -6,15 +6,17 @@
     <div class="row align-items-center">
       <div id="filters" class="col-9" style="margin-right: 10px">
         <div class="filters-container">
+          
           <div
             id="resetFilter"
             onclick="resetFilter()"
-            class="filter"
+            class="filter applyFilter"onclick="applyFilter('arctic')" style="margin: 0px;"
             style="display: none"
           >
             <i class="fas fa-house"></i>
             <p>Home</p>
           </div>
+          
 
           <div
             onclick="applyFilter('trending')"
@@ -96,6 +98,61 @@
             <i class="fas fa-snowflake"></i>
             <p>Arctic</p>
           </div>
+<!--  -->
+          <div onclick="applyFilter('beach')" 
+          class="filter applyFilter"
+           style="margin: 0px"
+           >
+            <i class="fa-solid fa-umbrella-beach"></i>
+            <p>Beach</p>
+          </div>
+          <div onclick="applyFilter('boat')"
+           class="filter applyFilter"
+            style="margin: 0px"
+            >
+            <i class="fa-solid fa-sailboat"></i>
+            <p>Boat</p>
+          </div>
+          <div onclick="applyFilter('skiinout')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-person-snowboarding"></i>
+            <p>Ski-in/out</p>
+          </div>
+          <div onclick="applyFilter('apartment')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-building"></i>
+            <p>Apartment</p>
+          </div>
+          <div onclick="applyFilter('new')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-key"></i>
+            <p>New</p>
+          </div>
+          <div onclick="applyFilter('woodlands')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-tree-city"></i>
+            <p>Woodlands</p>
+          </div>
+          <div onclick="applyFilter('lake')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-water"></i>
+            <p>Lake</p>
+          </div>
+          <div onclick="applyFilter('cabins')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-house"></i>
+            <p>Cabins</p>
+          </div>
+          <div onclick="applyFilter('countryside')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-house-chimney-window"></i>
+            <p>Countryside</p>
+          </div>
+          <div onclick="applyFilter('bedandbreakfasts')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-mug-hot"></i>
+            <p>Bed & Breakfasts</p>
+          </div>
+          <div onclick="applyFilter('campsite')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-tents"></i>
+            <p>Campsite</p>
+          </div>
+          <div onclick="applyFilter('historicalhomes')" class="filter applyFilter" style="margin: 0px">
+            <i class="fa-solid fa-landmark"></i>
+            <p>Historical Homes</p>
+          </div>
         </div>
       </div>
       <div class="tax-toggle col-2 ms-auto p-0 me-3">
@@ -144,7 +201,7 @@
           </p>
         </div>
       </div>
-    </a>
+  
     <% } %>
   </div>
 
@@ -197,7 +254,7 @@
                 </p>
               </div>
             </div>
-          </a>
+        
         `;
         container.innerHTML += listingElement;
       });
