@@ -60,13 +60,17 @@
   object-fit: cover;
   border-radius: 8px;
 }
-
 .card-img-overlay {
+  opacity: 0;
+}
+
+.card-img-overlay:hover {
+  opacity: 0.5;
+  color: #303030;
   font-size: 1rem;
-  color: #fff;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-  padding: 10px;
+  padding: 2px 0px 5px 25px;
   top: 0;
   left: 0;
   right: 0;
