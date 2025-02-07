@@ -8,22 +8,6 @@ body {
 .container {
   flex: 1;
 }
-
-/* Navbar */
-.navbar {
-  height: 5rem;
-  background-color: white;
-}
-
-.nav-link {
-  color: #222222;
-}
-
-.fa-compass {
-  color: #fe424d;
-  font-size: 2rem;
-}
-
 /* Footer */
 .f-info {
   text-align: center;
