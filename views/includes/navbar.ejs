@@ -1,4 +1,3 @@
-
 <% const searchInput = typeof input !== 'undefined' ? input : ''; %>
 <nav class="navbar navbar-expand-md sticky-top custom-mobile-container">
   <div class="container-fluid d-md-block">
@@ -9,7 +8,7 @@
       <!-- [1] Navbar Brand: Aligned left on mobile -->
       <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
         <i class="fa-regular fa-compass"></i>
-        <span>WanderLust</span>
+        <span class="Brand">WanderLust</span>
       </a>
 
       <!-- [3] Navbar Toggler: Aligned right on mobile -->
@@ -83,6 +82,13 @@
     <!-- Collapsible Content for Mobile -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 ms-4"
+          href="/listings"
+        >
+          <i class="fa-regular fa-compass"></i>
+          <span class="Brand">WanderLust</span>
+        </a>
         <a class="nav-link" href="/listings">Home</a>
         <a class="nav-link" href="/listings">Explore</a>
       </div>

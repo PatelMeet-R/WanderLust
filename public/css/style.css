@@ -70,8 +70,6 @@ body {
   padding-left: 1rem;
 }
 
-
-
 .listing-link {
   text-decoration: none;
 }
@@ -214,4 +212,7 @@ body {
   .show-img {
     height: 70vh;
   }
+}
+.Brand {
+  font-family: "Lobster", serif;
 }

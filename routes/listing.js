@@ -32,6 +32,9 @@ router
   )
   .delete(isOwner, isLoggedIn, wrapAsync(listingController.destroyListing));
 router
+  .route("/:id/reserve")
+  .get(isLoggedIn, wrapAsync(listingController.reserve));
+router
   .route("/:id/edit")
   .get(isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
 module.exports = router;

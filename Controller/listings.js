@@ -165,3 +165,11 @@ module.exports.search = async (req, res) => {
     input,
   });
 };
+module.exports.reserve = async (req, res) => {
+  let { id } = req.params;
+  req.flash(
+    "success",
+    "You have Reserved ,We send further details in your email "
+  );
+  res.redirect(`/listings/${id}`);
+};

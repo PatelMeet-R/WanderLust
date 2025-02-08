@@ -23,12 +23,23 @@
           <p class="card-text">
             HOSTED BY <i><%= listing.owner.username %></i>
           </p>
-          <p class="card-text"><%= listing.description %></p>
           <p class="card-text">
+            <b>Description: </b><%= listing.description %>
+          </p>
+          <p class="card-text">
+            <b>Cost: </b>
             &#8377; <%= listing.price.toLocaleString("en-In") %>
           </p>
-          <p class="card-text"><%= listing.location %></p>
-          <p class="card-text"><%= listing.country %></p>
+          <p class="card-text">
+            <b>Category:&nbsp;&nbsp;</b>
+            <%= listing.category %>
+          </p>
+          <p class="card-text">
+            <b>Location:&nbsp;&nbsp;</b><%= listing.location %>
+          </p>
+          <p class="card-text">
+            <b>Country:&nbsp;&nbsp;</b><%= listing.country %>
+          </p>
         </div>
       </div>
 
@@ -47,7 +58,15 @@
           </form>
         </div>
       </div>
-      <% } %>
+      <% } else {%>
+      <div class="col-12 col-md-8 offset-md-2">
+        <div class="show-btns d-flex justify-content-center gap-3 my-3">
+          <form action="/listings/<%= listing._id %>/reserve" method="get">
+            <button type="submit" class="btn btn-success">RESERVE</button>
+          </form>
+        </div>
+      </div>
+      <%} %>
 
       <!-- Review Section -->
       <div class="col-12 col-md-8 offset-md-2">
