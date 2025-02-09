@@ -38,13 +38,14 @@
           <div class="invalid-feedback">please enter a short decriptions!</div>
         </div>
         <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
           <select
-            class="form-select form-select-sm"
-            aria-label="Small select example"
+            class="form-select form-select-sm form-control"
             name="listing[category]"
+            id="category"
             required
           >
-            <option selected>Select Category</option>
+            <option value="" disabled selected>Select a Category</option>
             <option value="trending">Trending</option>
             <option value="rooms">Rooms</option>
             <option value="iconic-cities">Iconic-cities</option>
